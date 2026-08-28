@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 
 from pathlib import Path
 import os
-from dotenv import load_dotenv, dotenv_values
+from dotenv import load_dotenv
 
 load_dotenv()
 
@@ -41,7 +41,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'rest_framework',
+
+    'nwUsers'
 ]
 
 MIDDLEWARE = [
@@ -134,3 +137,6 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
+
+# User model
+#AUTH_USER_MODEL = 'nwUsers.User'
