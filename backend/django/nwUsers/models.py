@@ -1,10 +1,3 @@
-from django.db import models
+# More to be added here later (see option 2: https://simpleisbetterthancomplex.com/tutorial/2016/07/22/how-to-extend-django-user-model.html)
 
-# Create your models here.
-class User(models.Model):
-    username = models.CharField(max_length=16, primary_key=True)
-    password = models.CharField(max_length=64)
-    datetime_joined = models.DateTimeField(auto_now_add=True,editable=False)
 
-    def __str__(self):
-        return self.username
