@@ -5,7 +5,6 @@ django-stubs-ext==6.1.0
 djangorestframework==3.18.0
 djangorestframework-stubs==3.18.1
 PyMySQL==1.2.0
-#mysqlclient==2.2.8 Delete this line later if server can run on all devices without it
 python-dotenv==1.2.3
 sqlparse==0.6.0
 types-PyYAML==6.0.12.20260815
