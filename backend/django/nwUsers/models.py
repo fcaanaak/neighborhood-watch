@@ -1,3 +1,0 @@
-# More to be added here later (see option 2: https://simpleisbetterthancomplex.com/tutorial/2016/07/22/how-to-extend-django-user-model.html)
-
-
