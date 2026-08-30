@@ -18,12 +18,14 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
+from nwchannels.views import NWChannelViewSet
 from nwusers.views import NWUserViewSet
 from nwgroups.views import NWGroupViewSet
 
 router = DefaultRouter()
 router.register(r'users', NWUserViewSet)
-router.register(r'groups',NWGroupViewSet, basename="nwgroup")
+router.register(r'groups',NWGroupViewSet)
+router.register(r'groups/channels',NWChannelViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(router.urls))
