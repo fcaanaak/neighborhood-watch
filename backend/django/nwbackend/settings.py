@@ -35,6 +35,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # Default Apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,9 +43,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # Custom libraries
     'rest_framework',
 
-    'nwUsers'
+    # Created Apps
+    'nwusers',
+    'nwgroups',
 ]
 
 MIDDLEWARE = [
@@ -137,6 +141,3 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
-
-# User model
-#AUTH_USER_MODEL = 'nwUsers.User'
