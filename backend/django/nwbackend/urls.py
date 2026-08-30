@@ -23,7 +23,7 @@ from nwgroups.views import NWGroupViewSet
 
 router = DefaultRouter()
 router.register(r'users', NWUserViewSet)
-router.register(r'groups',NWGroupViewSet)
+router.register(r'groups',NWGroupViewSet, basename="nwgroup")
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(router.urls))
