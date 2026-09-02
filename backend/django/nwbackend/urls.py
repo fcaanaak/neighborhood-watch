@@ -18,12 +18,20 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
+from nwchannels.views import NWChannelViewSet
 from nwusers.views import NWUserViewSet
 from nwgroups.views import NWGroupViewSet
 
+# Channels are only defined within the scope of groups, look into this
+# to make sure that all channel operations can only happen within a group
+# Ex: /groups/1/channels/1/ (In order to get a channel with ID 1)
+# Ex (continued): instead of doing /channels/1/
+# Use this: https://github.com/alanjds/drf-nested-routers
+
 router = DefaultRouter()
 router.register(r'users', NWUserViewSet)
-router.register(r'groups',NWGroupViewSet, basename="nwgroup")
+router.register(r'groups',NWGroupViewSet)
+router.register(r'groups/channels',NWChannelViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(router.urls))

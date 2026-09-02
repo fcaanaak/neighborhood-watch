@@ -8,29 +8,36 @@ from nwusers.models import NWUser
 from nwgroups.models import NWGroup
 from nwgroups.serializers import NWGroupSerializer
 
-# Create your views here.
+def group_exists(pk):
+    try:
+        NWGroup.objects.get(id=pk)
+        return True
+    except NWGroup.DoesNotExist:
+        return False
+
+
 class NWGroupViewSet(viewsets.ModelViewSet):
     queryset = NWGroup.objects.all()
     serializer_class = NWGroupSerializer
 
-    @action(methods=['get'], detail=True)
+
+    @action(methods=['get'], detail=True, url_path='members')
     def get_members(self, request, pk=None):
 
         if not self.queryset.filter(id=pk).exists():
             return Response("No such group exists", status=status.HTTP_404_NOT_FOUND)
 
-        usernames = NWUser.objects.raw(""" 
-                            select username, id from auth_user
-                            where id in (
-                                select user_id from nwusers_nwmembership m
-                                where not exists(
-                                        (select id from nwgroups_nwgroup where id=%s)
-                                        except
-                                        (select mm.group_id from nwusers_nwmembership mm where mm.group_id = m.group_id)
-                                )
-                            );
-        """, params=[pk])
+        query_group = NWGroup.objects.filter(id=pk).prefetch_related('user_membership').first()
+        usernames = [user.auth_user.username for user in query_group.user_membership.all()]
 
-        return Response({'members': [user.username for user in usernames]})
+        return Response({'members': usernames})
 
+    @action(methods=['get'], detail=True, url_path='channels')
+    def get_channels(self, request, pk=None):
+        if not group_exists(pk):
+            return Response("No such group exists", status=status.HTTP_404_NOT_FOUND)
 
+        query_group = NWGroup.objects.filter(id=pk).prefetch_related('channels').first()
+        channel_names = [channel.name for channel in query_group.channels.all()]
+
+        return Response({'channel_names': channel_names})
