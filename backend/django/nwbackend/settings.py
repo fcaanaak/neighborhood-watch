@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     # Created Apps
     'nwusers',
     'nwgroups',
-    'nwchannels'
+    'nwchannels',
+    'nwlocationbound'
 ]
 
 MIDDLEWARE = [
