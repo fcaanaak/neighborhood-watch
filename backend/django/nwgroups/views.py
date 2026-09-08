@@ -32,16 +32,6 @@ class NWGroupViewSet(viewsets.ModelViewSet):
 
         return Response({'members': usernames})
 
-    @action(methods=['get'], detail=True, url_path='channels')
-    def get_channels(self, request, pk=None):
-        if not group_exists(pk):
-            return Response("No such group exists", status=status.HTTP_404_NOT_FOUND)
-
-        query_group = NWGroup.objects.filter(id=pk).prefetch_related('channels').first()
-        channel_names = [channel.name for channel in query_group.channels.all()]
-
-        return Response({'channel_names': channel_names})
-
     @action(methods=['get'], detail=True, url_path='location_bound')
     def get_location_bound(self, request, pk=None):
 
