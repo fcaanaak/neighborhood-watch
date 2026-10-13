@@ -18,17 +18,17 @@ class NWUserSerializer(serializers.ModelSerializer):
     """
     Serializer for NWUser model.
     """
-    user = UserSerializer()
+    auth_user = UserSerializer()
 
     class Meta:
         model = NWUser
-        fields = ["user"]
+        fields = ["auth_user"]
 
     def create(self, validated_data):
-        user_data = validated_data.pop("user")
+        user_data = validated_data.pop("auth_user")
 
         new_user = User.objects.create_user(**user_data)
 
-        nw_user = NWUser.objects.create(user=new_user,**validated_data)
+        nw_user = NWUser.objects.create(auth_user=new_user,**validated_data)
 
         return nw_user

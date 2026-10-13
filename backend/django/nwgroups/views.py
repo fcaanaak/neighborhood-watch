@@ -1,5 +1,8 @@
+from typing import Any
+
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
+from rest_framework.request import Request
 from rest_framework.response import Response
 
 from django.core import serializers
@@ -31,16 +34,6 @@ class NWGroupViewSet(viewsets.ModelViewSet):
         usernames = [user.auth_user.username for user in query_group.user_membership.all()]
 
         return Response({'members': usernames})
-
-    @action(methods=['get'], detail=True, url_path='channels')
-    def get_channels(self, request, pk=None):
-        if not group_exists(pk):
-            return Response("No such group exists", status=status.HTTP_404_NOT_FOUND)
-
-        query_group = NWGroup.objects.filter(id=pk).prefetch_related('channels').first()
-        channel_names = [channel.name for channel in query_group.channels.all()]
-
-        return Response({'channel_names': channel_names})
 
     @action(methods=['get'], detail=True, url_path='location_bound')
     def get_location_bound(self, request, pk=None):

@@ -50,7 +50,8 @@ INSTALLED_APPS = [
     'nwusers',
     'nwgroups',
     'nwchannels',
-    'nwlocationbound'
+    'nwlocationbound',
+    'nwevents'
 ]
 
 MIDDLEWARE = [

@@ -19,20 +19,29 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
 from nwchannels.views import NWChannelViewSet
+from rest_framework_nested import routers
+
+from nwevents.views import NWEventViewSet
+from nwlocationbound.views import NWLocationBoundViewSet
 from nwusers.views import NWUserViewSet
 from nwgroups.views import NWGroupViewSet
 
-# Channels are only defined within the scope of groups, look into this
-# to make sure that all channel operations can only happen within a group
-# Ex: /groups/1/channels/1/ (In order to get a channel with ID 1)
-# Ex (continued): instead of doing /channels/1/
-# Use this: https://github.com/alanjds/drf-nested-routers
 
 router = DefaultRouter()
 router.register(r'users', NWUserViewSet)
 router.register(r'groups',NWGroupViewSet)
-router.register(r'groups/channels',NWChannelViewSet)
+router.register(r'location-bounds',NWLocationBoundViewSet)
+
+channels_router = routers.NestedDefaultRouter(router, r'groups', lookup='group')
+channels_router.register(r'channels', NWChannelViewSet, basename='channels')
+
+events_router = routers.NestedDefaultRouter(channels_router, r'channels', lookup='channel')
+events_router.register(r'events', NWEventViewSet, basename='events')
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include(router.urls))
+    path('', include(router.urls)),
+    path('',include(channels_router.urls)),
+    path('', include(events_router.urls)),
 ]
