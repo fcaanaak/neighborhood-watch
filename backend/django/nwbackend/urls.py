@@ -22,6 +22,7 @@ from nwchannels.views import NWChannelViewSet
 from rest_framework_nested import routers
 
 from nwevents.views import NWEventViewSet
+from nwlocationbound.views import NWLocationBoundViewSet
 from nwusers.views import NWUserViewSet
 from nwgroups.views import NWGroupViewSet
 
@@ -29,12 +30,15 @@ from nwgroups.views import NWGroupViewSet
 router = DefaultRouter()
 router.register(r'users', NWUserViewSet)
 router.register(r'groups',NWGroupViewSet)
+router.register(r'location-bounds',NWLocationBoundViewSet)
 
 channels_router = routers.NestedDefaultRouter(router, r'groups', lookup='group')
 channels_router.register(r'channels', NWChannelViewSet, basename='channels')
 
 events_router = routers.NestedDefaultRouter(channels_router, r'channels', lookup='channel')
 events_router.register(r'events', NWEventViewSet, basename='events')
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(router.urls)),
